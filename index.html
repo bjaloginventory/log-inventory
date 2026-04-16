@@ -391,7 +391,7 @@ table.log-tbl td{padding:7px 10px;border-bottom:1px solid #eee;white-space:nowra
 // CONFIGURATION — fill these in before deploying
 // =============================================
 const CONFIG = {
-  API_URL: 'https://script.google.com/macros/s/AKfycbxccqTLyG4t6kvU7iSrwBut1dEpoIkIqExVrzPEdKlDdetCU9gB6nMlYFller-TYJ0t/exec',
+  API_URL: 'https://script.google.com/macros/s/AKfycbwSjoJ1uz4htehC-97v4pTNkFmb2qhcjiMxS9TSoPvZgr_t4HiPXSnhLOLVRSyc1j9P/exec',
   GOOGLE_CLIENT_ID: '578947233181-j96u6aucnoeta2fm5kmucagk5q4se8cd.apps.googleusercontent.com'
 };
 
@@ -469,18 +469,17 @@ function showApp() {
 // =============================================
 function apiCall(action, payload) {
   return new Promise((resolve, reject) => {
-    const body = { action, payload, idToken: currentUser.idToken };
-    fetch(CONFIG.API_URL, {
-      method: 'POST',
-      body: JSON.stringify(body)
-    })
-    .then(r => r.json())
-    .then(data => {
-      if (data.error) reject(new Error(data.error));
-      else resolve(data);
-    })
-    .catch(reject);
+    const body = JSON.stringify({ action, payload, idToken: currentUser.idToken });
+    const url = CONFIG.API_URL + '?data=' + encodeURIComponent(body);
+    fetch(url, { method: 'GET' })
+      .then(r => r.json())
+      .then(data => {
+        if (data.error) reject(new Error(data.error));
+        else resolve(data);
+      })
+      .catch(reject);
   });
+}
 }
 
 // =============================================
