@@ -472,7 +472,6 @@ function apiCall(action, payload) {
     const body = { action, payload, idToken: currentUser.idToken };
     fetch(CONFIG.API_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body)
     })
     .then(r => r.json())
